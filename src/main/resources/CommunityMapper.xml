@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.terabits.dao.mapper.CommunityMapper">
+
+	<resultMap id="communityMap" type="com.terabits.meta.po.CommunityPO">
+        <id property="id" column="id" javaType="java.lang.Integer"></id>
+        <result property="name" column="name" javaType="java.lang.String"></result>
+        <result property="description" column="description" javaType="java.lang.String"></result>
+    </resultMap>
+    
+    <select id="selectAllCommunity" resultType="String">
+    	select name from community
+    </select>
+</mapper>

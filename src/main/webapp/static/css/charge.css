@@ -1,0 +1,94 @@
+@CHARSET "UTF-8";
+<style>
+body{}
+/* 嵌入字体 */	
+@font-face{
+	font-family:'萍方-简';
+	src:url('/platform/font/pingfang.eot'), 
+        url('/platform/font/pingfang.ttf') format('truetype'),
+		url('/platform/font/pingfang.svg#萍方-简') format('svg');
+}
+
+/* 取消链接的下划线 */	
+a:link { text-decoration: none; } /*正常情况下无下划线*/
+a:visited { text-decoration: none; } /*访问过的链接无下划线*/
+
+/* 导航栏按钮的默认样式 */	
+.menu{
+	font-family:萍方-简;
+    background-color:#0e9c76;
+	font-size:12px;
+	color:#e9e9e9;
+	height:35px;
+	width:10%;
+	text-align:center;
+	margin-left:0.5%;
+	outline:none;
+	margin-top:-5px;
+	border-radius:5px;
+	cursor:hand;
+	max-width:130px;
+	min-width:80px;
+}
+
+/* 查询、取消按钮的默认样式 */
+.cbutton{
+	font-family:萍方-简;
+	font-size:14px;
+	color:white;
+	height:33px;
+	width:7.65%;
+	text-align:center;
+	margin-left:20px;
+	outline:none;
+	border-radius:7px;
+	cursor:hand;
+	background-color:#0e9c76;
+	max-width:100px;
+}
+
+/* 下拉选框的默认样式 */
+.cchoice{
+	font-family:萍方-简;
+	font-size:16px;
+	height:30px;
+	width:13.2%;
+	max-width:150px;
+	min-width:60px;
+	
+	border: solid 1.5px #0e9c76;
+  	-webkit-appearance:none;
+	background:url("/platform/static/pic/terminal/Drop down arrow.jpg") no-repeat 90% 11px;
+	text-indent:5%; 
+	color:#6a6969;
+	outline:none;
+	
+}   
+
+/* 时间选框样式*/
+.time{
+	font-family:萍方-简;
+	font-size:14px;
+	height:30px;
+	width:180px;
+	border: solid 1.5px #0e9c76;
+	color:#6a6969;
+	outline:none;
+}
+
+.select{
+	font-family:萍方-简;
+    background-color:#0e9c76;
+    color:white;
+	font-size:12px;
+	height:30px;
+	width:10%;
+	text-align:center;
+	margin-left:0.5%;
+	border:none;
+	outline:none;
+	margin-top:-5px;
+	border-radius:3px;
+	cursor:hand;
+}
+</style>

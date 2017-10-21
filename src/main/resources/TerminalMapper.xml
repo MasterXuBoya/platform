@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.terabits.dao.mapper.TerminalMapper">
+
+    <!-- 自定义返回结果集 -->
+    <resultMap id="terminalMap" type="com.terabits.meta.po.TerminalPO">
+        <id property="id" column="id" javaType="java.lang.Integer"></id>
+        <result property="community" column="community" javaType="java.lang.String"></result>
+        <result property="terminalImei" column="uk_terminal_imei" javaType="java.lang.String"></result>
+        <result property="terminalId" column="uk_terminal_id" javaType="java.lang.String"></result>
+        <result property="simId" column="uk_sim_id"  javaType="java.lang.String"></result>
+        <result property="simRemain" column="sim_remain" javaType="java.lang.Double"></result>
+        <result property="frequencyHeart" column="frequency_heart" javaType="java.lang.Integer"></result>
+        <result property="frequencyTask" column="frequency_task" javaType="java.lang.Integer"></result>
+        <result property="terminalState" column="terminal_state" javaType="java.lang.Integer"></result>
+        <result property="gmtCreate" column="gmt_create" javaType="java.lang.String"></result>
+        <result property="gmtModified" column="gmt_modified" javaType="java.lang.String"></result>
+    </resultMap>
+    <!-- 在各种标签中的id属性必须和接口中的方法名相同 ， id属性值必须是唯一的，不能够重复使用。parameterType属性指明查询时使用的参数类型，resultType属性指明查询返回的结果集类型-->
+    <!-- useGeneratedKeys：（ 仅 对 insert 有 用 ） 这 会 告 诉 MyBatis 使 用 JDBC 的getGeneratedKeys
+                方法来取出由数据（比如：像 MySQL 和 SQLServer 这样的数据库管理系统的自动递增字段）内部生成的主键。默认值： false。 -->
+    <!--keyProperty： （仅对 insert有用）标记一个属性， MyBatis 会通过 getGeneratedKeys或者通过 insert 语句的 selectKey 子元素设置它的值。默认：不设置。 -->
+    <!--#{}中的内容，为占位符，当参数为某个JavaBean时，表示放置该Bean对象的属性值  -->
+
+
+    <insert id="insertTerminal" keyProperty="id">
+        insert into terminal (community, uk_terminal_imei, uk_terminal_id, terminal_state, frequency_heart, frequency_task, gmt_create, gmt_modified) values
+        (#{community},#{terminalImei},#{terminalId},#{terminalState},0,0,now(),now())
+    </insert>
+
+    <update id="updateTerminal" parameterType="com.terabits.meta.bo.TerminalBO">
+        <!--  update meter
+           /*set uk_building=#{building},uk_room=#{room},terminal_imei=#{terminalImei},meter_remain=#{meterRemain},meter_state=#{meterState},gmt_modified=now()*/
+          <trim prefix="set" suffixOverrides=",">
+              <if test="terminalImei!=null">terminal_imei=#{terminalImei},</if>
+              <if test="meterRemain!=null">meter_remain=#{meterRemain},</if>
+              <if test="meterState!=null">meter_state=#{meterState},</if>
+          </trim>-->
+        update terminal set uk_sim_id = #{simId},sim_remain = #{simRemain},terminal_state = #{terminalState},gmt_modified=now() where uk_terminal_imei=#{terminalImei}
+    </update>
+
+    <update id="updateTerminalImei" parameterType="String">
+        update terminal set uk_terminal_imei = #{newImei}, gmt_modified = now() where uk_terminal_imei = #{oldImei}
+    </update>
+    
+    <update id="updateFrequency" parameterType="com.terabits.meta.bo.FrequencyBO">
+    	update terminal set frequency_heart=#{frequencyHeart}, frequency_task=#{frequencyTask} where uk_terminal_imei = #{imei}
+    </update>
+
+    <update id="updateTerminalSimId" >
+        update terminal set uk_sim_id = #{simId}, gmt_modified = now() where uk_terminal_imei = #{terminalImei)}
+    </update>
+
+    <update id="updateTerminalSimRemain" >
+        update terminal set sim_remain=#{simRemain},gmt_modified=now() where uk_terminal_imei = #{terminalImei)}
+    </update>
+
+    <update id="updateTerminalState" >
+        update terminal set terminal_state=#{terminalState},gmt_modified=now() where uk_terminal_imei = #{terminalImei)}
+    </update>
+
+    <update id="updateTerminalCreateTime" parameterType="String">
+        update terminal set gmt_create = #{createTime} where uk_terminal_imei=#{imei}
+    </update>
+
+    <update id="updateGroupState" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update terminal
+            <set>
+                terminal_state= ${item.state}
+            </set>
+                where uk_terminal_imei = ${item.imei}
+        </foreach>
+    </update>
+
+    <delete id="deleteTerminal" parameterType="String">
+        delete from terminal where uk_terminal_imei=#{terminalImei}
+    </delete>
+
+    <select id="selectOneTerminal" parameterType="String" resultMap="terminalMap">
+        select * from terminal where uk_terminal_imei = #{terminalImei}
+    </select>
+
+    <select id="selectOneTerminalById" parameterType="String" resultMap="terminalMap">
+        select * from terminal where uk_terminal_id = #{terminalId}
+    </select>
+
+    <select id="selectAllTerminal" resultMap="terminalMap">
+        select * from terminal
+    </select>
+
+	<select id="selectAllTerminalByCommunity" parameterType="String" resultMap="terminalMap">
+        select * from terminal where community = #{community}
+    </select>
+
+</mapper>

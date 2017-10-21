@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+<style>
+@font-face{
+	font-family:'萍方-简';
+	src:url('/platform/static/css/pingfang.eot'), 
+        url('/platform/static/css/pingfang.ttf') format('truetype'),
+		url('/platform/static/css/pingfang.svg#萍方-简') format('svg');
+}
+</style>

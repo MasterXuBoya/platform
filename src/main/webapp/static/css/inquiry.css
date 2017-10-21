@@ -1,0 +1,50 @@
+@CHARSET "UTF-8";
+<style>
+body{}
+/* 嵌入字体 */	
+@font-face{
+	font-family:'萍方-简';
+	src:url('/platform/font/pingfang.eot'), 
+        url('/platform/font/pingfang.ttf') format('truetype'),
+		url('/platform/font/pingfang.svg#萍方-简') format('svg');
+}
+
+/* 取消链接的下划线 */	
+a:link { text-decoration: none; } /*正常情况下无下划线*/
+a:visited { text-decoration: none; } /*访问过的链接无下划线*/
+
+/* 导航栏按钮的默认样式 */	
+.imenu{
+	font-family:萍方-简;
+    background-color:#0e9c76;
+	font-size:12px;
+	color:#e9e9e9;;
+	height:35px;
+	width:10%;
+	text-align:center;
+	margin-left:0.5%;
+	outline:none;
+	margin-top:-5px;
+	border-radius:5px;
+	cursor:hand;
+	max-width:130px;
+	min-width:80px;
+}
+
+/* 下拉选框的默认样式 */
+.ichoice{
+	color:#6a6969;
+	font-family:萍方-简;
+	font-size:16px;
+	height:30px;
+	width:13.2%;
+	
+	border: solid 1.5px #0e9c76;
+  	-webkit-appearance:none;
+	background:url("/platform/static/pic/terminal/Drop down arrow.jpg") no-repeat 95% 11px;
+	padding-right:100px;
+	text-indent:15%; 
+	outline:none;
+}   
+
+</style>

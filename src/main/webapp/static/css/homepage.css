@@ -1,0 +1,133 @@
+@charset "utf-8"
+<style>
+body{}
+/* 嵌入字体 */	
+@font-face{
+	font-family:'萍方-简';
+	src:url('/platform/font/pingfang.eot'), 
+        url('/platform/font/pingfang.ttf') format('truetype'),
+		url('/platform/font/pingfang.svg#萍方-简') format('svg');
+}
+
+#header {
+	font-family:萍方-简;
+	line-height:65px;
+	height:65px;
+	background-image: url(/platform/static/pic/TopBar.jpg);
+	background-size:100%;
+	color:white;
+	font-size:16px;
+	}
+	
+/* login框的标题样式 */
+#loginheader {
+	font-family:萍方-简;
+	line-height:40px;
+	height:40px;
+    width:100%;
+	background-image: url(/platform/static/pic/TopBar.jpg);
+	background-size:100%;
+	color:white;
+	font-size:16px;
+	}
+	
+/* 输入框的默认样式  */	
+.input{
+	color:#6a6969;
+	border-style:solid;
+	border-color:#0e9c76;
+	border-width:1.5px;
+	height:35px;
+	width:60%;
+	padding-left:10px;                                                           	
+	outline:none;
+	margin-top:5%;
+}
+
+/* login按钮的默认样式 */	
+.submit{
+	font-size:18px;
+    font-family:萍方-简;
+	height:35px;
+    width:33%;
+	color:white;
+	font-size:18px;
+	outline:none;
+	margin-top:6%;
+	border-radius:3px;
+}
+
+#menu {
+	border-right-style:solid;
+	border-right-color:#d6d6d6;
+	border-right-width:1px;
+    background-color:white;
+    height:100%;
+	}
+
+/* 导航栏按钮的默认样式 */	
+.button{
+	font-family:萍方-简;
+    background-color:white;
+    background-size:100%;
+	font-size:14px;
+	color:#6a6969;
+	height:60px;
+	width:100%;
+	font-size:14px;
+	text-align:left;
+	float:left;
+	border:none;
+	outline:none;
+}
+
+/* 鼠标移动到导航栏按钮上的样式 */	
+.d_over{
+	background-image:url(/platform/static/pic/over_back.png);
+	background-size:100%;
+	color:#6a6969;
+	font-weight:bold;
+	font-family:萍方-简;
+	height:60px;
+	width:100%;
+	font-size:14px;
+	text-align:left;
+	float:left;
+	border:none;
+	outline:none;
+	}  
+
+/* 鼠标离开导航栏按钮上的样式 */	
+.d_out{
+	font-family:萍方-简;
+    background-color:white;
+    background-size:100%;
+	font-size:14px;
+	color:#6a6969;
+	height:60px;
+	width:100%;
+	font-size:14px;
+	text-align:left;
+	float:left;
+	border:none;
+	outline:none;
+	} 
+
+/* 鼠标点击瞬间导航栏按钮上的样式 */		 
+.d_click{
+    background-image:url(/platform/static/pic/click_back.png);
+    background-size:100%;
+	background-color:#c3eeec;
+	color:#066b65;
+	font-weight:bold;
+	font-family:萍方-简;
+	height:60px;
+	width:100%;
+	font-size:14px;
+	text-align:left;
+	float:left;
+	border:none;
+	outline:none;
+	}  
+
+</style>

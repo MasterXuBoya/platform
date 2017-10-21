@@ -1,0 +1,61 @@
+@CHARSET "UTF-8";
+<style>
+body{}
+/* 嵌入字体 */	
+@font-face{
+	font-family:'萍方-简';
+	src:url('/platform/font/pingfang.eot'), 
+        url('/platform/font/pingfang.ttf') format('truetype'),
+		url('/platform/font/pingfang.svg#萍方-简') format('svg');
+}
+
+#table{
+	border:1px solid;
+	border-collapse:collapse;	
+	width:100%;
+	text-align:left;
+	font-size:14px;
+	color:#6a6969;
+	font-family:萍方-简;
+	background-color:#e4e4e4;
+	text-align:center;
+	border-top: none;
+	white-space:normal;
+}
+
+#table td{
+	border:1px solid;	
+	height:26px;
+	border-top-style: none; 
+	border-bottom-style: none;	
+}
+
+#table th{
+	border:1px solid;
+	font-weight:bold;
+	height:26px;
+	border-top-style: none; 
+	border-bottom-style: none
+}
+
+#thead{
+	border:1px solid;
+	border-collapse:collapse;	
+	width:100%;
+	text-align:left;
+	font-size:14px;
+	color:#6a6969;
+	font-family:萍方-简;
+	text-align:center;
+}
+
+#thead th{
+	border:1px solid;	
+	font-weight:bold;
+	height:26px;
+	outline:none;
+	border-top: none; 
+	border-bottom: none;
+	background-color:#e4e4e4;
+}
+</style>

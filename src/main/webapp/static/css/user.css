@@ -1,0 +1,122 @@
+@CHARSET "UTF-8";
+<style>
+body{}
+/* 嵌入字体 */	
+@font-face{
+	font-family:'萍方-简';
+	src:url('/platform/font/pingfang.eot'), 
+        url('/platform/font/pingfang.ttf') format('truetype'),
+		url('/platform/font/pingfang.svg#萍方-简') format('svg');
+}
+
+/* 取消链接的下划线 */	
+a:link { text-decoration: none; } /*正常情况下无下划线*/
+a:visited { text-decoration: none; } /*访问过的链接无下划线*/
+
+/* 导航栏按钮的默认样式 */	
+.menu{
+	font-family:萍方-简;
+    background-color:#066b65;
+	font-size:14px;
+	color:white;
+	height:35px;
+	width:10%;
+	text-align:center;
+	margin-left:0.5%;
+	outline:none;
+	margin-top:-5px;
+	border-radius:5px;
+	cursor:hand;
+	margin-left:-0.5%;
+	min-width:90px;
+}
+
+/* 表格内编辑按钮的默认样式 */	
+.edit{
+	font-family:萍方-简;
+	background-color:#0e9c76;
+	width:70%;
+	height:25px;
+	outline:none;
+	font-size:13px;
+	color:white;
+	border-radius:3px;
+	cursor:hand;
+	margin-left:5%;
+}
+
+/* 查询、新增用户按钮的默认样式 */	
+.sub{
+	background-color:#0e9c76;
+	width:8%;
+	height:33px;
+	outline:none;
+	font-size:14px;
+	color:white;
+	border-radius:5px;
+	cursor:hand;
+	margin-left:20px;
+	max-width:100px;
+}
+
+
+/* 用户编辑弹出窗口  */
+
+/* 标题栏样式  */
+.ttitle {
+	width:300px;
+	height:45px;
+	font-size:20px;
+	background-image:url(/platform/static/pic/TopBar.jpg);
+	font-family:萍方-简;
+	line-height:45px;
+	text-align:center;
+	background-size:100%;
+	color:white;
+	}
+	
+/* 输入框的默认样式  */	
+.tinput{
+	color:#6a6969;
+	border-style:solid;
+	border-color:#0e9c76;
+	border-width:1.5px;
+	height:28px;
+	width:190px;
+	padding-left:10px;
+	outline:none;
+	margin-top:10px;
+}
+
+/* 下拉选框的默认样式  */
+.authority{
+	color:#6a6969;
+	font-family:萍方-简;
+	font-size:14x;
+	height:30px;
+	width:203px;
+	
+	border: solid 1.5px #0e9c76;
+  	-webkit-appearance:none;
+	background:url("/platform/static/pic/terminal/Drop down arrow.jpg") no-repeat 95% 11px;
+	padding-right:5px;
+	text-indent:5%; 
+	outline:none;
+	margin-top:10px;
+	margin-left:-4px;
+} 
+
+/* 保存取消按钮的默认样式  */
+.tbutton{
+	margin-top:20px;
+	font-family:萍方-简;
+	font-size:14px;
+	color:white;
+	height:26px;
+	width:80px;
+	text-align:center;
+	margin-left:20px;
+	outline:none;
+	border-radius:3px;
+	cursor:hand;
+}

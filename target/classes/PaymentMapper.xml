@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.terabits.dao.mapper.PaymentMapper">
+
+    <!-- 自定义返回结果集 -->
+    <resultMap id="paymentMap" type="com.terabits.meta.po.PaymentPO">
+        <id property="id" column="id" javaType="java.lang.Integer"></id>
+        <result property="community" column="community" javaType="java.lang.String"></result>
+        <result property="building" column="building" javaType="java.lang.String"></result>
+        <result property="room" column="room" javaType="java.lang.String"></result>
+        <result property="payment" column = "payment" javaType="java.lang.Integer"></result>
+        <result property="remaining" column="remaining" javaType="java.lang.Double"></result>
+        <result property="orderId" column="order_id" javaType="java.lang.String"></result>
+        <result property="openId" column="open_id" javaType="java.lang.String"></result>
+        <result property="tradeNo" column="trade_no" javaType="java.lang.String"></result>
+        <result property="operatorId" column="operator_id" javaType="java.lang.String"></result>
+        <result property="gmtCreate" column="gmt_create" javaType="java.lang.String"></result>
+        <result property="gmtModified" column="gmt_modified" javaType="java.lang.String"></result>
+    </resultMap>
+
+    <resultMap id="sumPaymentMap" type="com.terabits.meta.bo.TempBusinessPaymentBO">
+    	<result property="community" column="community" javaType="java.lang.String"></result>
+        <result property="building" column="building" javaType="java.lang.String"></result>
+        <result property="room" column="room" javaType="java.lang.String"></result>
+        <result property="tempPayment" column="tempPayment" javaType="java.lang.String"></result>
+    </resultMap>
+      <!-- 在各种标签中的id属性必须和接口中的方法名相同 ， id属性值必须是唯一的，不能够重复使用。parameterType属性指明查询时使用的参数类型，resultType属性指明查询返回的结果集类型-->
+    <!-- useGeneratedKeys：（ 仅 对 insert 有 用 ） 这 会 告 诉 MyBatis 使 用 JDBC 的getGeneratedKeys
+                方法来取出由数据（比如：像 MySQL 和 SQLServer 这样的数据库管理系统的自动递增字段）内部生成的主键。默认值： false。 -->
+    <!--keyProperty： （仅对 insert有用）标记一个属性， MyBatis 会通过 getGeneratedKeys或者通过 insert 语句的 selectKey 子元素设置它的值。默认：不设置。 -->
+    <!--#{}中的内容，为占位符，当参数为某个JavaBean时，表示放置该Bean对象的属性值  -->
+
+    <insert id="insertPayment" parameterType="com.terabits.meta.po.PaymentPO">
+        insert into paymentnew (community, building, room, payment, remaining, order_id, open_id, trade_no, operator_id, gmt_create, gmt_modified)
+        values (#{community}, #{building}, #{room}, #{payment}, #{remaining}, #{orderId}, #{openId}, #{tradeNo}, #{operatorId}, now(), now())
+    </insert>
+
+    <delete id="deletePayment" parameterType="com.terabits.meta.bo.SelectDataBO">
+        delete from paymentnew
+        <where>
+        	<if test="community != null and community != ''">
+                community = #{community}
+            </if>
+            <if test="building != null and building != ''">
+                building = #{building}
+            </if>
+            <if test="room != null and room != ''">
+                and room = #{room}
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                and gmt_create >= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and gmt_create &lt; #{endTime}
+            </if>
+        </where>
+    </delete>
+
+    <select id="selectPayment" parameterType="com.terabits.meta.bo.SelectDataBO" resultMap="paymentMap">
+        select * from paymentnew
+        <where>
+        	<if test="community != null and community != ''">
+                community = #{community}
+            </if>
+            <if test="building != null and building != ''">
+                building = #{building}
+            </if>
+            <if test="room != null and room != ''">
+                and room = #{room}
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                and gmt_create >= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and gmt_create &lt; #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id = "selectPaymentByOpenId" parameterType="String" resultMap="paymentMap">
+        select * from paymentnew where openid = #{openId}
+    </select>
+
+    <select id="selectAllPayment" parameterType="String" resultMap="paymentMap">
+        select * from paymentnew where community = #{community}
+    </select>
+
+    <select id="selectSumPayment" parameterType="String" resultType="java.lang.Integer">
+        select sum(payment) as tempPayment from paymentnew where community = #{community} and gmt_create >= #{time}
+    </select>
+
+    <select id="selectCountByTime" parameterType="com.terabits.meta.bo.SelectDataBO" resultType="java.lang.Integer">
+        select count(*) from paymentnew
+        <where>
+        	<if test="community != null and community != ''">
+                community = #{community}
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                and gmt_create >= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and gmt_create &lt; #{endTime}
+            </if>
+        </where>
+    </select>
+
+</mapper>

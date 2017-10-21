@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.terabits.dao.mapper.AdminUserMapper">
+
+    <!-- 自定义返回结果集 -->
+    <resultMap id="adminUserMap" type="com.terabits.meta.po.AdminUserPO">
+        <id property="id" column="id" javaType="java.lang.Integer"></id>
+        <result property="account" column="account" javaType="java.lang.String"></result>
+        <result property="password" column="password" javaType="java.lang.String"></result>
+        <result property="community" column="community" javaType="java.lang.String"></result>
+        <result property="name" column="name" javaType="java.lang.String"></result>
+        <result property="phone" column="phone" javaType="java.lang.String"></result>
+        <result property="email" column="email" javaType="java.lang.String"></result>
+        <result property="role" column="role" javaType="java.lang.String"></result>
+        <result property="authority" column="authority" javaType="java.lang.String"></result>
+        <result property="gmtCreate" column="gmt_create" javaType="java.lang.String"></result>
+        <result property="gmtModified" column="gmt_modified" javaType="java.lang.String"></result>
+    </resultMap>
+    
+    <resultMap id="adminUserVO" type="com.terabits.meta.vo.AdminUserVO">
+        <result property="account" column="account" javaType="java.lang.String"></result>
+        <result property="name" column="name" javaType="java.lang.String"></result>
+        <result property="phone" column="phone" javaType="java.lang.String"></result>
+        <result property="email" column="email" javaType="java.lang.String"></result>
+        <result property="authority" column="authority" javaType="java.lang.String"></result>
+    </resultMap>
+    <!-- 在各种标签中的id属性必须和接口中的方法名相同 ， id属性值必须是唯一的，不能够重复使用。parameterType属性指明查询时使用的参数类型，resultType属性指明查询返回的结果集类型-->
+    <!-- useGeneratedKeys：（ 仅 对 insert 有 用 ） 这 会 告 诉 MyBatis 使 用 JDBC 的getGeneratedKeys
+                方法来取出由数据（比如：像 MySQL 和 SQLServer 这样的数据库管理系统的自动递增字段）内部生成的主键。默认值： false。 -->
+    <!--keyProperty： （仅对 insert有用）标记一个属性， MyBatis 会通过 getGeneratedKeys或者通过 insert 语句的 selectKey 子元素设置它的值。默认：不设置。 -->
+    <!--#{}中的内容，为占位符，当参数为某个JavaBean时，表示放置该Bean对象的属性值  -->
+
+
+    <insert id="insertAdminUser" useGeneratedKeys="true" parameterType="com.terabits.meta.po.AdminUserPO">
+        insert into user (account, password, community, name, phone, email, role, authority, gmt_create, gmt_modified)
+        values (#{account}, #{password}, #{community}, #{name}, #{phone}, #{email}, #{role}, #{authority}, now(), now())
+    </insert>
+
+    <delete id="deleteAdminUser" parameterType="String">
+        delete from user where account = #{account}
+    </delete>
+
+    <update id="updateAdminUser" parameterType="com.terabits.meta.bo.AdminUserBO">
+        update user set password = #{password}, name = #{name}, phone = #{phone},
+        email = #{email}, role = #{role}, authority = #{authority}, gmt_modified = now() where account = #{account}
+    </update>
+
+    <select id="selectAdminUserByAccount" parameterType="String" resultMap="adminUserMap">
+        select * from user where account = #{account}
+    </select>
+
+    <select id = "selectAdminUserVOByAccount" parameterType="String" resultMap="adminUserVO">
+        select * from user where account = #{account}
+    </select>
+
+    <select id="selectAdminUserByName" parameterType="String" resultMap="adminUserVO">
+        select * from user where name = #{name} and community = #{community}
+    </select>
+
+    <select id="selectAllAdminUser" parameterType="String" resultMap="adminUserVO">
+        select * from user where community = #{community}
+    </select>
+
+
+</mapper>

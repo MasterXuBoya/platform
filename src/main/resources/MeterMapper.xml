@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.terabits.dao.mapper.MeterMapper">
+
+    <!-- 自定义返回结果集 -->
+    <resultMap id="meterMap" type="com.terabits.meta.po.MeterPO">
+        <id property="id" column="id" javaType="java.lang.Integer"></id>
+        <result property="meterId" column="uk_meter_id" javaType="java.lang.String"></result>
+        <result property="community" column="uk_community" javaType="java.lang.String"></result>
+        <result property="building" column="uk_building" javaType="java.lang.String"></result>
+        <result property="room" column="uk_room"  javaType="java.lang.String"></result>
+        <result property="terminalImei" column="terminal_imei" javaType="java.lang.String"></result>
+        <result property="relativeLocation" column="relative_location" javaType="java.lang.Integer"></result>
+        <result property="meterRemain" column="meter_remain" javaType="java.lang.Float"></result>
+        <result property="meterState" column="meter_state" javaType="java.lang.Integer"></result>
+        <result property="gmtCreate" column="gmt_create" javaType="java.lang.String"></result>
+        <result property="gmtModified" column="gmt_modified" javaType="java.lang.String"></result>
+    </resultMap>
+    
+    <resultMap id="meterLocation" type="com.terabits.meta.bo.LocationBO">
+        <result property="community" column="uk_community" javaType="java.lang.String"></result>
+        <result property="building" column="uk_building" javaType="java.lang.String"></result>
+        <result property="room" column="uk_room"  javaType="java.lang.String"></result>
+    </resultMap>
+
+    <resultMap id="meterStatusVO" type="com.terabits.meta.vo.MeterStatusVO">
+        <result property="building" column="uk_building" javaType="java.lang.String"></result>
+        <result property="room" column="uk_room"  javaType="java.lang.String"></result>
+        <result property="status" column="meter_state" javaType="java.lang.Integer"></result>
+    </resultMap>
+    <!-- 在各种标签中的id属性必须和接口中的方法名相同 ， id属性值必须是唯一的，不能够重复使用。parameterType属性指明查询时使用的参数类型，resultType属性指明查询返回的结果集类型-->
+    <!-- useGeneratedKeys：（ 仅 对 insert 有 用 ） 这 会 告 诉 MyBatis 使 用 JDBC 的getGeneratedKeys
+                方法来取出由数据（比如：像 MySQL 和 SQLServer 这样的数据库管理系统的自动递增字段）内部生成的主键。默认值： false。 -->
+    <!--keyProperty： （仅对 insert有用）标记一个属性， MyBatis 会通过 getGeneratedKeys或者通过 insert 语句的 selectKey 子元素设置它的值。默认：不设置。 -->
+    <!--#{}中的内容，为占位符，当参数为某个JavaBean时，表示放置该Bean对象的属性值  -->
+
+
+    <insert id="insertMeter" parameterType="java.util.Map">
+        insert into meter
+        (uk_meter_id,uk_community,uk_building,uk_room,relative_location, terminal_imei,meter_remain,meter_state,gmt_create,gmt_modified)
+        values
+        <foreach collection="meterPOS" item="meterPO"  index= "index" separator =",">
+            (
+            #{meterPO.meterId},
+            #{meterPO.community},
+            #{meterPO.building},
+            #{meterPO.room},
+            #{meterPO.relativeLocation},
+            #{meterPO.terminalImei},
+            #{meterPO.meterRemain},
+            #{meterPO.meterState}, now(), now()
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateMeter" parameterType="com.terabits.meta.bo.MeterBO">
+        update meter set terminal_imei=#{terminalImei},meter_remain=#{meterRemain},meter_state=#{meterState},gmt_modified=now() where uk_community = #{community} and uk_building = #{building} and uk_room = #{room}
+    </update>
+
+    <update id="updateMeterImei" parameterType="String" >
+        update meter set terminal_imei=#{terminalImei}, gmt_modified=now() where uk_community = #{community} and uk_building = #{building} and uk_room = #{room}
+    </update>
+
+    <update id="updateMeterRemain">
+        update meter set meter_remain=#{meterRemain},gmt_modified=now() where uk_community = #{community} and uk_building = #{building} and uk_room = #{room}
+    </update>
+
+    <update id="updateMeterState">
+        update meter set meter_state=#{meterState},gmt_modified=now() where uk_community = #{community} and uk_building = #{building} and uk_room = #{room}
+    </update>
+
+    <update id="updateGroupImei" parameterType="String">
+        update meter set terminal_imei=#{newImei} where terminal_imei=#{oldImei}
+    </update>
+
+    <delete id="deleteMeter" parameterType="String">
+        delete from meter where uk_community = #{community} and uk_building = #{building} and uk_room = #{room}
+    </delete>
+
+    <delete id="deleteGroupMeter" parameterType="String">
+        delete from meter where terminal_imei = #{imei}
+    </delete>
+
+    <select id="selectOneMeter" parameterType="String" resultMap="meterMap">
+        select * from meter where uk_community = #{community} and uk_building = #{building} and uk_room = #{room}
+    </select>
+
+    <select id="selectMeterByRelativeLocation" parameterType="com.terabits.meta.bo.MeterBO" resultMap="meterMap">
+        select * from meter where terminal_imei = #{terminalImei} and relative_location = #{relativeLocation}
+    </select>
+
+    <select id="selectMeterByImei" parameterType="String" resultMap="meterMap">
+        select * from meter where terminal_imei = #{imei}
+    </select>
+
+    <select id="selectMeterByBuilding" parameterType="String" resultMap="meterMap">
+        select * from meter where uk_community = #{community} and uk_building= #{building}
+    </select>
+
+    <select id="selectAllMeter" parameterType="String" resultMap="meterMap">
+        select * from meter where uk_community = #{community}
+    </select>
+
+    <select id="selectAllBuilding" parameterType="String" resultType="String">
+        select DISTINCT uk_building from meter where uk_community = #{community}
+    </select>
+
+
+    <select id="selectAllRoomByBuilding" parameterType="String" resultType="String">
+        select uk_room from meter where uk_community = #{community} and uk_building = #{building}
+    </select>
+
+    <select id="selectAllRelativeLocationByImei" parameterType="String" resultType="int">
+        select relative_location from meter where terminal_imei = #{imei}
+    </select>
+
+    <select id="selectMeterInfo" parameterType="com.terabits.meta.bo.SelectDataBO" resultMap="meterMap">
+        select * from meter
+        <where>
+        	<if test="community != null and community != ''">               
+        		uk_community = #{community}
+            </if>
+            <if test="building != null and building != ''">
+                and uk_building = #{building}
+            </if>
+            <if test="room != null and room != ''">
+                and uk_room = #{room}
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                and gmt_create >= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and gmt_create &lt; #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="meterAndClient" type="com.terabits.meta.po.MeterClientPO">
+        <result property="community" column="uk_community" javaType="java.lang.String"></result>
+        <result property="building" column="uk_building" javaType="java.lang.String"></result>
+        <result property="room" column="uk_room"  javaType="java.lang.String"></result>
+        <result property="remain" column="meter_remain" javaType="java.lang.Double"></result>
+        <collection property="clients" javaType="java.util.List" ofType="com.terabits.meta.bo.ClientInfoBO">
+            <result property = "name" column="name" javaType="java.lang.String" />
+            <result property="phone" column="phone" javaType="java.lang.String" />
+        </collection>
+    </resultMap>
+
+
+    <select id="queryForList" parameterType="com.terabits.meta.bo.LocationBO" resultMap="meterAndClient">
+        SELECT * FROM
+        meter u, client_info r where
+        u.uk_community = r.community and u.uk_building = r.building and u.uk_room = r.room and u.uk_community = #{community}
+        <if test="building != null and building != 'all'">
+          and u.uk_building = #{building}
+        </if>
+        <if test="room != null and room != 'all'">
+          and u.uk_room = #{room}
+        </if>
+    </select>
+
+    <!--查找全部欠费用户-->
+    <select id="queryForArrearage" parameterType="String" resultMap="meterAndClient">
+        SELECT * FROM
+        meter u, client_info r where
+        u.uk_community = r.community and u.uk_building = r.building and u.uk_room = r.room and u.uk_community = #{community} and <![CDATA[u.meter_remain < 0.0]]>
+    </select>
+
+    <!-- 判断当前数据是否被预定 -->
+    <select id="selectListMeter" parameterType="com.terabits.meta.bo.LocationBO" resultMap="meterStatusVO">
+        SELECT uk_building, uk_room, meter_state
+        FROM meter WHERE
+        <foreach collection="list" item="locationBO" index="index" separator="or">
+            (
+            <if test="locationBO.community"> uk_community = #{locationBO.community}</if>
+            <if test="locationBO.building">AND uk_building = #{locationBO.building}</if>
+            <if test="locationBO.room">AND uk_room = #{locationBO.room}</if>
+            )
+        </foreach>
+    </select>
+
+    <select id="getMeterLocation" parameterType="String" resultMap="meterLocation">
+        select uk_building, uk_room from meter where uk_community = #{community}
+    </select>
+</mapper>
